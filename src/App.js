@@ -1,4 +1,6 @@
 import React from 'react';
+import Products from './Products/Products';
+
 import './App.scss';
 
 class App extends React.Component {
@@ -6,7 +8,12 @@ class App extends React.Component {
     super();
   }
   render() {
-    return <h1>REACT</h1>;
+    return (
+      <div>
+        <h1>REACT</h1>
+        <Products />
+      </div>
+    );
   }
 }
 
