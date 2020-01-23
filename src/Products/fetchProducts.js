@@ -6,7 +6,7 @@ import {
 
 const API_ENDPOINT = 'http://dummy.restapiexample.com/api/v1/employees';
 
-const fetchProducts = async dispatch => {
+const fetchProductsAction = async dispatch => {
   dispatch(fetchProductsPending());
 
   try {
@@ -21,4 +21,4 @@ const fetchProducts = async dispatch => {
   }
 };
 
-export default fetchProducts;
+export default fetchProductsAction;

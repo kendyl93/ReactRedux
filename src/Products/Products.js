@@ -7,63 +7,51 @@ import Spinner from '../UI/Spinner';
 
 import ProductsList from './ProductsList';
 
+const ErrorView = () => <div>ERROR</div>;
+
 class Products extends Component {
   constructor(props) {
     super(props);
-    console.log(this);
 
     this.state = {
-      requestSuccessful: undefined,
-      requestPending: undefined,
-      requestFailed: undefined,
+      requestPending: null,
+      requestFailed: null,
       products: []
     };
   }
 
   componentWillMount() {
-    console.log({ AAAA: this.props });
     const { fetchProducts } = this.props;
     fetchProducts();
   }
 
-  // shouldComponentRender() {
-  //   const { pending } = this.props;
-  //   if (this.pending === false) return false;
-  //   // more tests
-  //   return true;
-  // }
   componentWillReceiveProps(nextProps) {
-    console.log({ nextProps });
+    const { error, pending, products } = nextProps;
+
     this.setState({
-      requestSuccessful: nextProps.success,
-      requestPending: nextProps.pending,
-      requestFailed: nextProps.error,
-      products: nextProps.products
+      requestPending: pending,
+      requestFailed: error,
+      products
     });
   }
 
   render() {
-    const {
-      requestSuccessful,
-      requestPending,
-      requestFailed,
-      products
-    } = this.state;
-    console.log({ STSTSTSTSTST: this.state, PRPRPRPRPR: this.props });
+    const { requestPending, requestFailed, products } = this.state;
 
-    if (requestPending === undefined) return <Spinner />;
-
-    return (
+    return requestFailed ? (
+      <ErrorView />
+    ) : requestPending === true ? (
+      <Spinner />
+    ) : (
       <div className="product-list-wrapper">
-        {requestFailed && <span className="product-list-error">{error}</span>}
-        {products && <ProductsList products={products} />}
+        <ProductsList products={products} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log({ stateA: state.productsReducer });
+  console.log({ state });
   return {
     error: getProductsError(state.productsReducer),
     products: getProducts(state.productsReducer),
@@ -71,9 +59,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  // debugger;
-  return { fetchProducts: () => fetchProductsAction(dispatch) };
-};
+const mapDispatchToProps = dispatch => ({
+  fetchProducts: () => fetchProductsAction(dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
