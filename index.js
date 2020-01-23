@@ -6,12 +6,12 @@ import configureStore from './src/model/store';
 import App from './src/App';
 
 const store = configureStore();
-console.log({ store });
 
-const rootElement = document.getElementById('root');
-ReactDOM.render(
+const WithProvider = ({ store }) => (
   <Provider store={store}>
     <App />
-  </Provider>,
-  rootElement
+  </Provider>
 );
+
+const rootElement = document.getElementById('root');
+ReactDOM.render(<WithProvider store={store} />, rootElement);

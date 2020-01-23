@@ -1,29 +1,24 @@
 import {
   fetchProductsPending,
   fetchProductsSuccess,
-  fetchProductsError,
-  FETCH_PRODUCTS_PENDING
+  fetchProductsError
 } from './actions';
 
-const fetchProducts = dispatch => {
-  console.log({ dispatch });
+const API_ENDPOINT = 'http://dummy.restapiexample.com/api/v1/employees';
+
+const fetchProducts = async dispatch => {
   dispatch(fetchProductsPending());
-  fetch('http://dummy.restapiexample.com/api/v1/employees')
-    .then(res => res.json())
-    .then(res => {
-      console.log({ res });
-      if (res.error) {
-        throw res.error;
-      }
-      const products = res.data;
 
-      dispatch(fetchProductsSuccess(products));
+  try {
+    const response = await fetch(API_ENDPOINT);
+    const { data: products } = await response.json();
+    dispatch(fetchProductsSuccess(products));
 
-      return products;
-    })
-    .catch(error => {
-      dispatch(fetchProductsError(error));
-    });
+    return products;
+  } catch (error) {
+    console.error(error);
+    dispatch(fetchProductsError(error));
+  }
 };
 
 export default fetchProducts;

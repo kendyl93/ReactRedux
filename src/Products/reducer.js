@@ -5,7 +5,6 @@ import {
 } from './actions';
 
 export const productsReducer = (state = {}, action) => {
-  console.log({ state, action });
   switch (action.type) {
     case FETCH_PRODUCTS_PENDING:
       return {
@@ -29,9 +28,6 @@ export const productsReducer = (state = {}, action) => {
   }
 };
 
-export const getProducts = ({ products }) => {
-  console.log({ products });
-  return products;
-};
+export const getProducts = state => state.products;
 export const getProductsPending = state => state.pending;
 export const getProductsError = state => state.error;

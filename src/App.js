@@ -3,18 +3,11 @@ import Products from './Products/Products';
 
 import './App.scss';
 
-class App extends React.Component {
-  constructor() {
-    super();
-  }
-  render() {
-    return (
-      <div>
-        <h1>REACT</h1>
-        <Products />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div>
+    <h1>REACT</h1>
+    <Products />
+  </div>
+);
 
 export default App;
