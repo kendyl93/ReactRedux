@@ -16,3 +16,8 @@ I decided to describe in a short sentence why some packages are included in the 
 - **Prettier** - to format the code - rules can be modified in `.prettierrc`
 
 ### TODO:
+
+- Add more tests(react components, logic) and check tests coverage
+- Add spinner as a ui
+- Implement modal(integrate with Redux) - which adds some new elements to the lists from api
+- check how to implement lazy load in react
