@@ -2,7 +2,7 @@ import {
   FETCH_PRODUCTS_PENDING,
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_ERROR
-} from './actions';
+} from './actionsTypes';
 
 export const productsReducer = (state = {}, action) => {
   switch (action.type) {
