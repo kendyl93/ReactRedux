@@ -1,9 +1,18 @@
 # ReactRedux
 
-TODO:
+# Run the app
 
-1. integrate .eslintrc, .prettierrc
+In order to run the app follow these steps:
+
+1. Make sure you are in a root folder and run `npm install`
+2. Run the app typing `npm run start`
 
 ### Selected packages installed reason:
 
-- [husky](https://github.com/typicode/husky) - needed to run pre-commit tests
+I decided to describe in a short sentence why some packages are included in the project.
+
+- **Husky** - needed to run pre-commit tests
+- **Eslint** - to show errors/warnings in the code - rules can be modified in `.eslintrc`
+- **Prettier** - to format the code - rules can be modified in `.prettierrc`
+
+### TODO:
