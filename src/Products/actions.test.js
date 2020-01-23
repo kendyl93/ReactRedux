@@ -28,19 +28,25 @@ describe('actions', () => {
   });
 });
 
-const mockStore = configureMockStore([thunk]);
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
-describe('changePurchaseStatus', () => {
+describe('async actions', () => {
+  // it('should dispatch actions of ConstantA and ConstantB', () => {
+  //   const expectedActions = [{ type: FETCH_PRODUCTS_PENDING }];
+
+  //   const store = mockStore({});
+  //   store.dispatch(fetchProductsPending(store.dispatch));
+
+  //   expect(store.getActions()).toEqual(expectedActions);
+  // });
   it('handles changing a purchase status and fetches all purchases', async () => {
-    const dispatch = jest.fn();
-    const getState = jest.fn();
-
-    await fetchProducts(dispatch);
-    expect(dispatch).toBeCalledWith({ type: 'CHANGE_PURCHASE_STATE_STARTED' });
-    expect(dispatch).toBeCalledWith({
-      type: 'CHANGE_PURCHASE_STATE_SUCCESS',
-      meta: { id: 'rylauNS2GG', status: 'sent' }
+    const store = mockStore();
+    store.dispatch(configureMockStore());
+    expect(await getAction(store, 'CHANGE_PURCHASE_STATE_STARTED')).toEqual({
+      type: 'CHANGE_PURCHASE_STATE_STARTED'
     });
-    expect(dispatch).toBeCalledWith({ type: 'FETCH_ALL_PURCHASES_STARTED' });
+    // expect(await getAction(store, "CHANGE_PURCHASE_STATE_SUCCESS")).toEqual({type: "CHANGE_PURCHASE_STATE_SUCCESS", meta: { id: "rylauNS2GG", status: "sent" }});
+    // expect(await getAction(store, "FETCH_ALL_PURCHASES_STARTED")).toEqual({type: "FETCH_ALL_PURCHASES_STARTED"});
   });
 });
