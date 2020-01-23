@@ -1,57 +1,46 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import fetchProductsAction from './fetchProducts';
+
+import fetchProducts from './fetchProducts';
 import { getProductsError, getProducts, getProductsPending } from './reducer';
 import Spinner from '../UI/Spinner';
-
 import ProductsList from './ProductsList';
+import ErrorBoundary from '../UI/ErrorBoundary/ErrorBoundary';
 
 const ErrorView = () => <div>ERROR</div>;
-
 class Products extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      requestPending: null,
-      requestFailed: null,
-      products: []
-    };
-  }
-
-  componentWillMount() {
+  async componentDidMount() {
     const { fetchProducts } = this.props;
-    fetchProducts();
-  }
 
-  componentWillReceiveProps(nextProps) {
-    const { error, pending, products } = nextProps;
-
-    this.setState({
-      requestPending: pending,
-      requestFailed: error,
-      products
-    });
+    try {
+      await fetchProducts();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   render() {
-    const { requestPending, requestFailed, products } = this.state;
+    const { pending, error, products } = this.props;
+    console.log('');
+    console.log({ pending, error, products });
 
-    return requestFailed ? (
-      <ErrorView />
-    ) : requestPending === true ? (
-      <Spinner />
-    ) : (
-      <div className="product-list-wrapper">
-        <ProductsList products={products} />
-      </div>
+    return (
+      <ErrorBoundary>
+        {pending ? <Spinner /> : <ProductsList products={products} />}
+      </ErrorBoundary>
     );
   }
 }
 
+Products.propTypes = {
+  error: PropTypes.bool,
+  pending: PropTypes.bool,
+  products: PropTypes.array,
+  fetchProducts: PropTypes.func
+};
+
 const mapStateToProps = state => {
-  console.log({ state });
   return {
     error: getProductsError(state.productsReducer),
     products: getProducts(state.productsReducer),
@@ -60,7 +49,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchProducts: () => fetchProductsAction(dispatch)
+  fetchProducts: () => fetchProducts(dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

@@ -6,7 +6,7 @@ import {
 
 const API_ENDPOINT = 'http://dummy.restapiexample.com/api/v1/employees';
 
-const fetchProductsAction = async dispatch => {
+const fetchProducts = async dispatch => {
   dispatch(fetchProductsPending());
 
   try {
@@ -16,9 +16,10 @@ const fetchProductsAction = async dispatch => {
 
     return products;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
     dispatch(fetchProductsError(error));
   }
 };
 
-export default fetchProductsAction;
+export default fetchProducts;
