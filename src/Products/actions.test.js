@@ -30,23 +30,44 @@ describe('actions', () => {
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+function findAction(store, type) {
+  return store.getActions().find(action => action.type === type);
+}
 
-describe('async actions', () => {
-  // it('should dispatch actions of ConstantA and ConstantB', () => {
-  //   const expectedActions = [{ type: FETCH_PRODUCTS_PENDING }];
+export function getAction(store, type) {
+  const action = findAction(store, type);
+  if (action) return Promise.resolve(action);
 
-  //   const store = mockStore({});
-  //   store.dispatch(fetchProductsPending(store.dispatch));
-
-  //   expect(store.getActions()).toEqual(expectedActions);
-  // });
-  it('handles changing a purchase status and fetches all purchases', async () => {
-    const store = mockStore();
-    store.dispatch(configureMockStore());
-    expect(await getAction(store, 'CHANGE_PURCHASE_STATE_STARTED')).toEqual({
-      type: 'CHANGE_PURCHASE_STATE_STARTED'
+  return new Promise(resolve => {
+    store.subscribe(() => {
+      const action = findAction(store, type);
+      if (action) resolve(action);
     });
-    // expect(await getAction(store, "CHANGE_PURCHASE_STATE_SUCCESS")).toEqual({type: "CHANGE_PURCHASE_STATE_SUCCESS", meta: { id: "rylauNS2GG", status: "sent" }});
-    // expect(await getAction(store, "FETCH_ALL_PURCHASES_STARTED")).toEqual({type: "FETCH_ALL_PURCHASES_STARTED"});
+  });
+}
+
+// allows us to easily return reponses and/or success/fail for a thunk that calls a service
+const mockServiceCreator = (body, succeeds = true) => () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
+  });
+
+describe('authenticate action', () => {
+  let store;
+  // set up a fake store for all our tests
+  beforeEach(() => {
+    store = mockStore({ phoneNumbers: [] });
+  });
+
+  describe('when a user logs in', () => {
+    it('fires a login request action', () =>
+      store.dispatch(fetchProducts()).then(() =>
+      {
+        console.log({AA: store.getActions()})
+        return expect(store.getActions()).toContainEqual({
+          type: FETCH_PRODUCTS_PENDING
+        })
+        }
+      ));
   });
 });

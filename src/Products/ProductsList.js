@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const EmptyView = () => <div>NO DATA</div>;
+
 const ProductsList = ({ products }) => {
   return (
     <div>
-      {products &&
+      {products ? (
         // eslint-disable-next-line camelcase
-        products.map(({ id, employee_name: name }) => <h4 key={id}>{name}</h4>)}
+        products.map(({ id, employee_name: name }) => <h4 key={id}>{name}</h4>)
+      ) : (
+        <EmptyView />
+      )}
     </div>
   );
 };
