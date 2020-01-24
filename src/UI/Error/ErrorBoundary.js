@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Alien from './Alien.png';
+import ErrorView from './ErrorView';
 
 class ErrorBoundary extends PureComponent {
   state = { error: undefined };
@@ -17,8 +17,7 @@ class ErrorBoundary extends PureComponent {
     if (error) {
       return (
         <div>
-          <img src={Alien} alt="Alien" />
-          <h3>Something went wrong.</h3>
+          <ErrorView />
         </div>
       );
     }
