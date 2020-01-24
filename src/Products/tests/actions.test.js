@@ -2,12 +2,12 @@ import {
   fetchProductsPending,
   fetchProductsError,
   fetchProductsSuccess
-} from './actions';
+} from '../actions';
 import {
   FETCH_PRODUCTS_PENDING,
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_ERROR
-} from './actionsTypes';
+} from '../types';
 
 describe('Product actions', () => {
   it('FETCH_PRODUCTS_PENDING', () => {
