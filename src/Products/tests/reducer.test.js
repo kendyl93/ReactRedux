@@ -1,4 +1,9 @@
-import { productsReducer } from '../reducer';
+import {
+  productsReducer,
+  getProducts,
+  getProductsPending,
+  getProductsError
+} from '../reducer';
 import {
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_ERROR,
@@ -53,5 +58,37 @@ describe('reducer', () => {
     };
 
     expect(productsReducer(state, pendingAction)).toEqual(expected);
+  });
+});
+
+describe('selectors', () => {
+  it('getProducts', () => {
+    const state = {
+      products: { milk: 'milk', soup: 'soup' },
+      pending: true,
+      error: false
+    };
+
+    expect(getProducts(state)).toEqual({ milk: 'milk', soup: 'soup' });
+  });
+
+  it('getProductsPending', () => {
+    const state = {
+      products: { milk: 'milk', soup: 'soup' },
+      pending: true,
+      error: false
+    };
+
+    expect(getProductsPending(state)).toEqual(true);
+  });
+
+  it('getProductsError', () => {
+    const state = {
+      products: { milk: 'milk', soup: 'soup' },
+      pending: true,
+      error: false
+    };
+
+    expect(getProductsError(state)).toEqual(false);
   });
 });
